@@ -38,7 +38,6 @@ fi
 
 # Run standard emonCMS backup module bash script
 if [ -f $emoncms_export_script_path/emoncms-export.sh ]
-$emoncms_export_script_path/emoncms-export.sh
 then
     echo Starting backup $(date)
     $emoncms_export_script_path/emoncms-export.sh
