@@ -18,7 +18,7 @@ then
     echo "emoncms-export.sh location: $emoncms_export_script_path"
     echo "Archives location: $backup_location"
 else
-    echo "ERROR: User settings file settings.conf file does not exist in $cdir"
+    echo "ERROR: User settings file settings.conf file does not exist in $DIR"
     exit 1
     sudo service feedwriter start > /dev/null
 fi
