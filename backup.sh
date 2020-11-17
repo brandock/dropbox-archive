@@ -11,7 +11,7 @@ cd $DIR
 pwd                  // Move current working directory
 
 # Import user settings
-if [ -f "./settings.conf" ]
+if [ -f ./settings.conf ]
 then
     eval `egrep '^([a-zA-Z_]+)="(.*)"' ./settings.conf`
     echo "Days of archives to keep: $store"
@@ -24,21 +24,28 @@ else
 fi
 
 # On first run enter dropbox configuration
-if [ ! -f /home/pi/.dropbox_uploader ];
+if [ ! -f /home/pi/.dropbox_uploader ]
 then
     echo -e
     echo -e "Before using this script, it is necessary to"
     echo -e "configure your Dropbox API to allow backups"
     echo -e "to be uploaded."
     echo -e "To configure the script, run"
-    echo -e "$cdir/lib/dropbox_uploader."
+    echo -e "$cdir/lib/dropbox_uploader.sh"
     echo -e "and follow the prompts."
     exit 1
 fi
 
 # Run standard emonCMS backup module bash script
-echo Starting backup $(date)
-/$emoncms_export_script_path/emoncms-export.sh
+if [ -f $emoncms_export_script_path/emoncms-export.sh ]
+$emoncms_export_script_path/emoncms-export.sh
+then
+    echo Starting backup $(date)
+    $emoncms_export_script_path/emoncms-export.sh
+else
+    echo "ERROR: Couldn't find emoncms-export.sh script in $emoncms_export_script_path/"
+    exit 1
+fi
 
 # Upload the file to Dropbox
 date=$(date +"%Y-%m-%d")
