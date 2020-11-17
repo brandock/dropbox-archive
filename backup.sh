@@ -24,7 +24,7 @@ else
 fi
 
 
-// On first run enter dropbox configuration
+# On first run enter dropbox configuration
 
 if [ ! -f "$"/home/pi/.dropbox_uploader" ]
 then
@@ -39,7 +39,7 @@ then
 fi
 
 
-// Run standard emonCMS backup module bash script
+# Run standard emonCMS backup module bash script
 echo Starting backup $(date)
 /$emoncms_export_script_path/emoncms-export.sh
 
