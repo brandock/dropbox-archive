@@ -23,21 +23,18 @@ else
     sudo service feedwriter start > /dev/null
 fi
 
-
 # On first run enter dropbox configuration
-
-if [ ! -f "$"/home/pi/.dropbox_uploader" ]
+if [ ! -f /home/pi/.dropbox_uploader ];
 then
     echo -e
     echo -e "Before using this script, it is necessary to"
     echo -e "configure your Dropbox API to allow backups"
     echo -e "to be uploaded."
     echo -e "To configure the script, run"
-    echo -e "$cdir/lib/./dropbox_uploader."
+    echo -e "$cdir/lib/dropbox_uploader."
     echo -e "and follow the prompts."
     exit 1
 fi
-
 
 # Run standard emonCMS backup module bash script
 echo Starting backup $(date)
