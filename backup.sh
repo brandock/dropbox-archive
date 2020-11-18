@@ -51,7 +51,7 @@ date=$(date +"%Y-%m-%d")
 if [ -f $backup_location/emoncms-backup-$date.tar.gz ]
 then
     echo "Found the archive created by emoncms-export. Uploading to Dropbox."
-    ./lib/dropbox_uploader.sh -sf /home/pi/.dropbox_uploader upload $backup_location/emoncms-backup-$date.tar.gz /backups/
+    ./lib/dropbox_uploader.sh -sf /home/pi/.dropbox_uploader upload $backup_location/emoncms-backup-$date.tar.gz $dropbox_location/
 else
     echo "ERROR: Backup file $backup_location/emoncms-backup-$date.tar.gz was not found."
     exit 1
