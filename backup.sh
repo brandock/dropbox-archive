@@ -69,7 +69,7 @@ backups=($(find *.gz)) # Array of current backups
 
 cd $DIR
 
-dropboxfiles=($(./lib/./dropbox_uploader.sh -f /home/pi/.dropbox_uploader list /backups/ | awk 'NR!=1{ print $3 }')) # Array of Dropbox files
+dropboxfiles=($(./lib/./dropbox_uploader.sh -f /home/pi/.dropbox_uploader list $dropbox_location/ | awk 'NR!=1{ print $3 }')) # Array of Dropbox files
 
 in_array() {
     local hay needle=$1
@@ -82,7 +82,7 @@ in_array() {
 
 for i in "${dropboxfiles[@]}"
 do
-    in_array $i "${backups[@]}" && echo 'Keeping ' $i || ./lib/./dropbox_uploader.sh -f /home/pi/.dropbox_uploader delete /backups/$i
+    in_array $i "${backups[@]}" && echo 'Keeping ' $i || ./lib/./dropbox_uploader.sh -f /home/pi/.dropbox_uploader delete $dropbox_location/$i
 done
 
 echo Completed upload $(date)
