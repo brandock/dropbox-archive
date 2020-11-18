@@ -69,7 +69,7 @@ backups=($(find *.gz)) # Array of current backups
 
 cd $DIR
 
-dropboxfiles=($(../lib/./dropbox_uploader.sh -f /home/pi/.dropbox_uploader list /backups/ | awk 'NR!=1{ print $3 }')) # Array of Dropbox files
+dropboxfiles=($(./lib/./dropbox_uploader.sh -f /home/pi/.dropbox_uploader list /backups/ | awk 'NR!=1{ print $3 }')) # Array of Dropbox files
 
 in_array() {
     local hay needle=$1
