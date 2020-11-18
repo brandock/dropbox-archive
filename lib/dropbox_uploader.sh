@@ -518,12 +518,14 @@ function db_upload_file
         return
     fi
 
-    if [[ $FILE_SIZE -gt 157286000 ]]; then
-        #If the file is greater than 150Mb, the chunked_upload API will be used
-        db_chunked_upload_file "$FILE_SRC" "$FILE_DST"
-    else
-        db_simple_upload_file "$FILE_SRC" "$FILE_DST"
-    fi
+#Brandon Baldock: I have not had any luck with the chunked upload API working since November 2019, so I disabled it
+#    if [[ $FILE_SIZE -gt 157286000 ]]; then
+#        #If the file is greater than 150Mb, the chunked_upload API will be used
+#        db_chunked_upload_file "$FILE_SRC" "$FILE_DST"
+#    else
+#        db_simple_upload_file "$FILE_SRC" "$FILE_DST"
+#    fi
+db_simple_upload_file "$FILE_SRC" "$FILE_DST"
 
 }
 

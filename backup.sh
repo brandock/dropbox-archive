@@ -59,16 +59,15 @@ fi
 
 # Delete expired local archive files
 cd $backup_location
-pwd
 echo "Removing expired local archives in $backup_location"
 let keep=(24*60*$store)+30
 find ./*.tar.gz -type f -mmin +$keep -exec rm {} \;
 
 # Remove old Dropbox backups
-cd $DIR
-pwd
 echo "Removing archives in Dropbox /backups that no longer reside in $backup_location"
 backups=($(find *.gz)) # Array of current backups
+
+cd $DIR
 
 dropboxfiles=($(../lib/./dropbox_uploader.sh -f /home/pi/.dropbox_uploader list /backups/ | awk 'NR!=1{ print $3 }')) # Array of Dropbox files
 
