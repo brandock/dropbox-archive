@@ -82,7 +82,7 @@ in_array() {
 
 for i in "${dropboxfiles[@]}"
 do
-    in_array $i "${backups[@]}" && echo 'Keeping ' $i || ../lib/./dropbox_uploader.sh -f /home/pi/.dropbox_uploader delete /backups/$i
+    in_array $i "${backups[@]}" && echo 'Keeping ' $i || ./lib/./dropbox_uploader.sh -f /home/pi/.dropbox_uploader delete /backups/$i
 done
 
 echo Completed upload $(date)
