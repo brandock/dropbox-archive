@@ -1,30 +1,29 @@
 # dropbox-archive
-**Description**  
-The aims of this module are to;  
-+ copy your emoncms feed data and obtain a dump of your emoncms MYSQL database
-+ option to backup node-red flows, credentials and configuration settings
-+ create a datestamped tar.gz compressed archive of the data
-+ upload the archive to your Dropbox cloud account
-+ each time the script is run, it will delete both local and cloud archives which are older that 7 days (can be changed in script)
+2020 Overview
+For my new-to-2020 emonCMS production server, I decided to use the standard backup module written for emonCMS. The plan is to use a cron task to run the standard emoncms-export.sh script on a nightly basis. From there the idea will be to use a modified version of Paul Reed’s Dropbox-Archive script to upload the archive to Dropbox and manage the number of archives to keep. 
 
-### Installation and Setup  
-Unlike a dedicated emoncms app, this module can be installed anywhere on your pi, and not necessarily within your emoncms directory.  
-1) Install the module via git  
-`git clone https://github.com/Paul-Reed/dropbox-archive.git`  
-2) Make a copy of default.settings.conf and call it settings.conf  
-`cd dropbox-archive && cp default.settings.conf settings.conf`  
-3) Add your emoncms **Write** API key, your MYSQL database details, and other options to settings.conf  
-`nano settings.conf`  
-*Note* - ensure that the $emoncms-server setting contains your 'private' (local) IP address, as the module will use the emoncms API to replicate your data directories.  
 
-### Run the script  
-`sudo php backup.php`  
-The first time that you run the script, it will prompt you to setup your Dropbox API, just follow the onscreen prompts.  
-*- The most common error cause is not copying the authorization URL accurately due to the wrong interpritation of numbers and letters such as O (letter) 0 (number) & 1 (number) I (letter).*  
-This only needs to be done once, and when completed, run the backup.php script again, and it will create an archive and upload it to dropbox in your Dropbox 'app' folder.
+# Install Instructios
 
-Running the script subsequently, will add further archives to Dropbox, which can be done either manually, by Cron, by node-red, or by other means.
+cd ~
+git clone https://github.com/brandock/dropbox-archive
+chmod +x ./dropbox-archive/backup.sh
+./dropbox-archive/backup.sh
 
-By default, the script will retain 7 days of backups, although that can be changed in the settings.conf file, archives older than that criteria are automatically deleted both locally and remotely in Dropbox when the script in run again.
+The last command will give the instructions for setting up the Dropbox token.
 
-*Many thanks to Andrea Fabrizi for his brilliant Dropbox_uploader script.*
+Notes about this.
+1)	Dropbox API has changed and I can no longer create a compatible “legacy app” that works with the Antonio Frabrizi dropbox-uploader utility. So I am using the original emoncms-backup app I've had since implementing Paul Reeds dropbox-archive utility years ago, and I wrote my new script to include the ability to set a destination folder in the settings.conf. For the new 2020 emonCMS prod I used the folder /emoncms-prod. For my existing 2019 server, I continue to use /backups/ in the same app folder, as an example.
+2)	I continue to need to disabled the chunked upload, which I suspect has to do with a change in the API that the script is not respecting. So that is commented out in the copy of Andrea Fabrizi's script in the /lib folder.
+
+# Cron Task Setup
+I did this as the pi user, not the superuser. It is logging to /home/pi/dropbox-archive.log
+
+crontab -e
+
+Add /opt/emoncms/modules/backup/emoncms-export.sh
+
+0 4 * * * /home/pi/dropbox-archive/backup.sh > /home/pi/dropbox-archive.log 2>&1
+
+*Thanks to Paul Reed for all his work on this and so many things I use in my home setup.*
+*Thanks to Andrea Fabrizi for his  Dropbox_uploader script.*
