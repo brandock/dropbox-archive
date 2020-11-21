@@ -21,7 +21,7 @@ I did this as the pi user, not the superuser. It is logging to /home/pi/dropbox-
 
 crontab -e
 
-Add /opt/emoncms/modules/backup/emoncms-export.sh
+Add this line and save.
 
 0 4 * * * /home/pi/dropbox-archive/backup.sh > /home/pi/dropbox-archive.log 2>&1
 
